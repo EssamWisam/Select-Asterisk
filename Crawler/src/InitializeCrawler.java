@@ -42,11 +42,7 @@ public class InitializeCrawler implements  Runnable
 
 
         }
-        if(Thread.interrupted())
-        {
-            System.out.println("A7aaa ana et2at3t");
-            mdb.insertInterrupt(URLsFrontier);
-        }
+       
     }
 
    public String getURl()
