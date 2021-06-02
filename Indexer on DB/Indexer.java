@@ -1,33 +1,35 @@
+package Indexer.src;
 import java.util.*;
+import java.sql.*;  
 public class Indexer {
 
-    private class webPage {
+    public class webPage {
 
         private String URL;         // The URL Of the website.
         private int TF;             // The term frequency of the word in the website.
-        private int District;       // The position of the word in the website (0 if it's in the body which is the default, other numbers for other districts)
+        //private int District;       // The position of the word in the website (0 if it's in the body which is the default, other numbers for other districts)
 
         public void incementTF() {
             TF++;
         }
 
-        public void setDistrict(int D) {
-            this.District = D;
-        }
+       //   public void setDistrict(int D) {
+       //      this.District = D;
+       // }
 
         public webPage(String URL, int count) {
             this.URL = URL;
             this.TF = count;
-            this.District = 0;
+            //this.District = 0;
         }
     }
     //Our only data member:
-    Map<String, List<webPage>> invertedIndex; ;        //Each entry in the inverted index includes one word and a list of the webpages that contain it (the web space).
+    Map<String, List<webPage>> invertedIndex;        //Each entry in the inverted index includes one word and a list of the webpages that contain it (the web space).
     //Note that the term frequency is recorded inside the web page data type, we have the IDF because we have the length of the web space.                                                                         
     public Indexer()
     {
         this.invertedIndex= new HashMap<String, List<webPage>>();
-    }
+    }   
     
     public void Invert( Map<String, List<String>> forwardIndex)  
     {
@@ -39,7 +41,6 @@ public class Indexer {
         ArrayList<String> Tokens = (ArrayList<String>)FI.getValue();         //Get the list of words in the website.
         for (String s : Tokens)                                     // loop over all words in the website's list of words.
         {
-            //String s = s.toLowerCase();
 
             //Let's see if the word already has an entry (get takes the key which is the word and returns the value which should be the list of webpages)
             List<webPage> webSpace = invertedIndex.get(s);
@@ -80,7 +81,6 @@ public class Indexer {
             long start = System.currentTimeMillis();
             ArrayList<String> webSite = new ArrayList<String>();
             ArrayList<Integer> termFrequency = new ArrayList<Integer>();
-            //String input = input.toLowerCase();
             int i = 0;
             List<webPage> webSpace = invertedIndex.get(input);
             if (webSpace != null) 
@@ -113,17 +113,17 @@ public class Indexer {
 
 
 
-public static void main(String[] args) 
+public static void main(String[] args) throws Exception
 {
     HashMap<String, List<String>> FI = new HashMap<String, List<String>>();           //Sample Forward index.
 
+    String SI="Annie, are you okay? Will you tell us that you're okay ? There's a sound at the window Then he struck you — a crescendo, Annie";
     ArrayList<String> WordsI = new ArrayList<String>();
-    String SI="Annie, are you okay? Will you tell us that you're okay? There's a sound at the window Then he struck you — a crescendo, Annie";
     for (String s : SI.split("\\W+")) 
         WordsI.add(s);
 
-    ArrayList<String> WordsII = new ArrayList<String>();
     String SII="That's why I want to be Free, free like the wind okay blow To fly away just like a sparrow The feeling of letting my hair blow Just take my time wherever I go I 'm in my";
+    ArrayList<String> WordsII = new ArrayList<String>();
     for (String s : SII.split("\\W+")) 
         WordsII.add(s);
 
@@ -131,10 +131,110 @@ public static void main(String[] args)
         FI.put("Free.org", WordsII);
         Indexer Content=new Indexer();
         Content.Invert(FI);
-        Content.Search("okay");
+        //Content.Search("okay");
+
+    databaseAction(FI, Content.invertedIndex);
+
+    
+
 
 }
 
+
+public static void databaseAction(Map<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex) throws Exception
+{
+   //Database connection.
+   Class.forName("com.mysql.cj.jdbc.Driver");  
+   Connection Con=DriverManager.getConnection( "jdbc:mysql://localhost:3306/Indexer","root","0110084949");  
+   //Population queries
+   String populateWords = " insert into Words (WORD)"+ " values (?)";
+   String populateWebsites = " insert into Webpages (URL)"+ " values (?)";
+   String populateRelation = " insert into AppearsIn ()"+ " values (?,?,?)";
+   PreparedStatement wordQuery = Con.prepareStatement(populateWords);
+   PreparedStatement websiteQuery = Con.prepareStatement(populateWebsites);
+   PreparedStatement relationQuery = Con.prepareStatement(populateRelation);
+
+   //Executing the queries to populate the database.
+   for (Map.Entry<String, List<String>> FI : forwardIndex.entrySet()) 
+   {
+            websiteQuery.setString (1, (String)FI.getKey());
+            try {
+                websiteQuery.execute();
+              }
+              catch(Exception e) {
+                System.out.println((String)FI.getKey() + "Is already here.");
+              }
+
+   }
+
+   for (Map.Entry<String, List<webPage>> II  : invertedIndex.entrySet()) 
+   {
+            String Word=(String)II.getKey();
+            wordQuery.setString (1, Word);
+
+            try {
+                wordQuery.execute();
+            }
+              catch(Exception e) {
+                System.out.println((String)II.getKey() + "Is already here.");
+              }
+
+
+
+            ArrayList<webPage> webPages = (ArrayList<webPage>)II.getValue();         //Get the list of words in the website.
+            for (webPage w : webPages)
+            {
+                relationQuery.setString(1, Word);
+                relationQuery.setString(2,w.URL);
+                relationQuery.setInt(3, w.TF);
+
+                try {
+                    relationQuery.execute();
+                }
+                  catch(Exception e) {
+                    System.out.println( "It's prior knowledge.");
+                  }
+
+            }      
+   }
+   
+
+        
+
+  //Printing the invertex index:
+   Statement test=Con.createStatement();  
+   //CREATE VIEW ForwardIndex as select URL, Word from appearsin order by URL ASC;
+   //CREATE VIEW InvertedIndex as select Word, Url, TF from appearsin order by word asc;
+   ResultSet entry=test.executeQuery("select * from InvertedIndex");
+   while(entry.next())  
+   System.out.println("The word "+entry.getString(1)+" appears in "+entry.getString(2)+" "+entry.getInt(3) + ((entry.getInt(3)==1)?" time.":" times."));  
+  
+   DBSearch("Okay");
+
+  
+   Con.close();  
 }
 
+   //Searching:
+   public static void DBSearch(String Input) throws Exception
+   {
+    Class.forName("com.mysql.cj.jdbc.Driver");  
+    Connection Con=DriverManager.getConnection( "jdbc:mysql://localhost:3306/Indexer","root","0110084949");  
+    Statement search=Con.createStatement();  
+    long start = System.currentTimeMillis();
+    ResultSet entry=search.executeQuery("select URL from InvertedIndex where InvertedIndex.Word = '"+Input+"';");
+    long end = System.currentTimeMillis();
 
+    int count=0;
+    while(entry.next())  
+        {
+        System.out.println(entry.getString(1));  
+        count=count+1;
+        }
+        System.out.println("About " + count +" results related to ( " +Input+" ), in "+ Long.toString(end-start) + " milliseconds.");
+   
+   }
+
+
+
+}
