@@ -1,4 +1,5 @@
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
@@ -36,6 +37,8 @@ public class MongoDB {
                     .append("html", html);
             collection.insertOne(document);
         }
-
+        public FindIterable<Document> getDocuments() {
+            return collection.find();
+        }
     }
 }
