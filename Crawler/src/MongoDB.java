@@ -4,10 +4,12 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
+
 import com.mongodb.DBCollection;
 
 import com.mongodb.client.model.Filters;
 import org.bson.BsonArray;
+
 import org.bson.Document;
 
 import java.util.LinkedList;
@@ -18,9 +20,7 @@ public class MongoDB {
     public static  class MongoHandler
     {
        static MongoCollection collection;
-        static MongoClient mongoClient;
         static MongoDatabase database;
-        static MongoCollection state;
         public  void ConnecttoDB()
         {
             MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
@@ -45,6 +45,7 @@ public class MongoDB {
         }
         public void InsertList(List<String> urls)
         {
+            MongoCollection state= database.getCollection("State");
            state = database.getCollection("State");
             state.deleteOne(Filters.eq("_id", "Links"));
             state.deleteOne(Filters.eq("_id", "Pages"));
@@ -55,12 +56,14 @@ public class MongoDB {
         }
         public void UpdateList(LinkedList<String> urls)
         {
+            MongoCollection state= database.getCollection("State");
             Document document = new Document("_id","Links");
             BasicDBObject doc = new BasicDBObject("_id","Links").append("data", urls);
             state.replaceOne(document,new Document(doc.toMap()));
         }
         public  void UpdatePagesNum(int crawled)
         {
+            MongoCollection state= database.getCollection("State");
             BasicDBObject doc = new BasicDBObject("_id", "Pages").append("num", crawled);
             state.updateOne(Filters.eq("_id", "Pages"), new Document("$set", new Document("num", crawled)));
         }

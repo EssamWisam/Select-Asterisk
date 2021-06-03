@@ -9,9 +9,9 @@ public class main {
         MongoDB.MongoHandler mdb = new MongoDB.MongoHandler();
         mdb.ConnecttoDB();
         int pages = mdb.getPagesNum();
-        System.out.println("Now "+pages);
-        if(pages >=5000|| pages==0) {
-            pages=0;
+        System.out.println("Now " + pages);
+        if (pages >= 5000 || pages == 0) {
+            pages = 0;
             seedSet = Arrays.asList(
                     "https://www.quora.com/",
                     "https://www.geeksforgeeks.org/",
@@ -20,11 +20,9 @@ public class main {
                     "https://www.coursera.org/courses?query=free"
             );
             mdb.InsertList(seedSet);
-        }
-        else
-        {
-            System.out.println("Starting from "+pages);
-            seedSet =mdb.getLinks();
+        } else {
+            System.out.println("Starting from " + pages);
+            seedSet = mdb.getLinks();
         }
 
         InitializeCrawler initializeCrawler = new InitializeCrawler(pages);
@@ -40,24 +38,27 @@ public class main {
         {
             threads[i].join();
         }
-
 /*
         System.out.println("Now Indexing......");
         FindIterable<Document> documents = mdb.getDocuments();
-        ArrayList<String> fieldkeys = new ArrayList<String>();
+        int counter =0 ;
         for (Document doc : documents) {
-           String url=doc.get("Url").toString();
+            String url=doc.get("Url").toString();
             String text = doc.get("html").toString();
             String words[] = Stemming.html2text(text).split(" ");
 
             wordsList = Stemming.removeStopWords(words);
             wordsList = Stemming.PorterStemming(wordsList);
-
-           FI.put(url,wordsList);
-           System.out.println(FI);
+            counter++ ;
+            FI.put(url,wordsList);
+            System.out.println("["+counter+"]"+ url+"\n" );
 
         }
-*/
 
+
+
+        System.out.println(FI.size());
+
+ */
     }
 }
