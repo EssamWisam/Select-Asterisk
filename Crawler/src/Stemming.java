@@ -55,28 +55,6 @@ public class Stemming {
 			
 			return finalwords;
 		}
-		/*public static void main(String[] args) throws Exception {
-
-			ArrayList<String> wordsList = new ArrayList<String>();
-
-			StringBuilder sb = new StringBuilder();
-			BufferedReader br = new BufferedReader(new FileReader("20th Century Studios - Wikipedia.html"));
-			String line;
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-			br.close();
-			String text = sb.toString();
-
-			String words[] = html2text(text).split(" ");
-
-			wordsList = removeStopWords(words);
-			wordsList =PorterStemming(wordsList);
-
-			for (String str : wordsList) {
-				System.out.println(str);
-			}
-
-		}*/
+		
 
 }

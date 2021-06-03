@@ -1,19 +1,17 @@
 import java.util.*;
 
-import com.mongodb.MongoClientURI;
+
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.MongoClient;
-import com.mongodb.DBCollection;
 import org.bson.Document;
-public class main {
+
+
+public class Main {
     public static void main(String[] args) throws Exception {
         ArrayList<String> wordsList = new ArrayList<String>();
-        HashMap<String, ArrayList<String>> FI = new HashMap<String, ArrayList<String>>();
+        HashMap<String, List<String>> FI = new HashMap<String, List<String>>();
         MongoDB.MongoHandler mdb = new MongoDB.MongoHandler();
         mdb.ConnecttoDB();
-       /* System.out.println(mdb.collection);
+        System.out.println(MongoDB.MongoHandler.collection);
         List<String> seedSet = Arrays.asList(
                 "https://www.quora.com/",
                 "https://www.geeksforgeeks.org/",
@@ -34,11 +32,11 @@ public class main {
         {
             threads[i].join();
         }
-        */
+        
 
         System.out.println("Now Indexing......");
         FindIterable<Document> documents = mdb.getDocuments();
-        ArrayList<String> fieldkeys = new ArrayList<String>();
+        int counter =0 ;
         for (Document doc : documents) {
            String url=doc.get("Url").toString();
             String text = doc.get("html").toString();
@@ -46,12 +44,13 @@ public class main {
 
             wordsList = Stemming.removeStopWords(words);
             wordsList = Stemming.PorterStemming(wordsList);
-
+           counter++ ;
            FI.put(url,wordsList);
-           System.out.println(FI);
+           System.out.println("["+counter+"]"+ url+"\n" );
 
         }
-
+        System.out.println(FI.size());
+      
 
     }
 }

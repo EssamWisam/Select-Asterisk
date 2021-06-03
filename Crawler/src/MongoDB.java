@@ -3,13 +3,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
-import com.mongodb.DBCollection;
-
-import org.bson.BsonArray;
 import org.bson.Document;
-
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class MongoDB {
