@@ -1,3 +1,4 @@
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -5,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
 import com.mongodb.DBCollection;
 
+import com.mongodb.client.model.Filters;
 import org.bson.BsonArray;
 import org.bson.Document;
 
@@ -18,6 +20,7 @@ public class MongoDB {
        static MongoCollection collection;
         static MongoClient mongoClient;
         static MongoDatabase database;
+        static MongoCollection state;
         public  void ConnecttoDB()
         {
             MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
@@ -39,6 +42,47 @@ public class MongoDB {
         }
         public FindIterable<Document> getDocuments() {
             return collection.find();
+        }
+        public void InsertList(List<String> urls)
+        {
+           state = database.getCollection("State");
+            state.deleteOne(Filters.eq("_id", "Links"));
+            state.deleteOne(Filters.eq("_id", "Pages"));
+            BasicDBObject doc = new BasicDBObject("_id","Links").append("data", urls);
+            state.insertOne(new Document(doc.toMap()));
+            doc = new BasicDBObject("_id","Pages").append("num", 0);
+            state.insertOne(new Document(doc.toMap()));
+        }
+        public void UpdateList(LinkedList<String> urls)
+        {
+            Document document = new Document("_id","Links");
+            BasicDBObject doc = new BasicDBObject("_id","Links").append("data", urls);
+            state.replaceOne(document,new Document(doc.toMap()));
+        }
+        public  void UpdatePagesNum(int crawled)
+        {
+            BasicDBObject doc = new BasicDBObject("_id", "Pages").append("num", crawled);
+            state.updateOne(Filters.eq("_id", "Pages"), new Document("$set", new Document("num", crawled)));
+        }
+        public  List<String> getLinks()
+        {
+            MongoCollection retrieve = database.getCollection("State");
+            List<String> linksSet= new LinkedList<String>();
+            FindIterable<Document> links= retrieve.find(Filters.eq("_id","Links"));
+            for (Document doc : links) {
+              linksSet.addAll ((List) doc.get("data"));
+            }
+            return  linksSet;
+        }
+        public  int getPagesNum()
+        {
+            int x=0;
+            MongoCollection retrieve = database.getCollection("State");
+            FindIterable<Document> links= retrieve.find(Filters.eq("_id","Pages"));
+            for (Document doc : links) {
+               x=(Integer) doc.get("num");
+            }
+            return  x;
         }
     }
 }

@@ -3,6 +3,11 @@ import java.util.*;
 public class InitializeCrawler implements  Runnable
 {
     int crawled=0;
+    InitializeCrawler(int x)
+    {
+        crawled =x;
+    }
+
     static final int MAX_PAGES_TO_SEARCH = 5000;
     LinkedList<String> URLsFrontier = new LinkedList<String>();
     Set<String> VisitedURLs = new HashSet<String>();
@@ -32,9 +37,11 @@ public class InitializeCrawler implements  Runnable
             {
                 synchronized (this) {
                     crawled++;
+                    mdb.UpdatePagesNum(crawled);
                     if(crawled == 5000)
                         break;
                     URLsFrontier.addAll(crawler.getHyperLinks());
+                    mdb.UpdateList(URLsFrontier);
                     notifyAll();
                 }
                 System.out.printf("Crawled Websites Successfully: %d  \n",crawled);
