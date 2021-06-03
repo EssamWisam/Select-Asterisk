@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 import ca.rmen.porterstemmer.PorterStemmer;
 
@@ -17,7 +18,7 @@ public class Stemming {
 	// remove any thing not alphapitic char
 	// Return type : String
 	public static String html2text(String html) {
-		return Jsoup.parse(html).text().replaceAll("[^A-Za-z ]", "");
+		return Jsoup.clean(html, Whitelist.none()).replaceAll("[^A-Za-z ]", "");
 		 
 	}
 

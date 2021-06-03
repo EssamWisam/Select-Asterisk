@@ -40,7 +40,7 @@ public class MongoDB {
                     .append("html", html);
             collection.insertOne(document);
         }
-        public FindIterable<Document> getDocuments() {
+        public FindIterable<Document>  getDocuments() {
             return collection.find();
         }
         public void InsertList(List<String> urls)

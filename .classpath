@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="Crawler/src"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="jar_files/bson-4.0.4.jar"/>
+	<classpathentry kind="lib" path="jar_files/jsoup-1.13.1.jar"/>
+	<classpathentry kind="lib" path="jar_files/mongodb-driver-core-4.0.4.jar"/>
+	<classpathentry kind="lib" path="jar_files/mongodb-driver-legacy-4.0.4.jar"/>
+	<classpathentry kind="lib" path="jar_files/mongodb-driver-sync-4.0.4.jar"/>
+	<classpathentry kind="lib" path="jar_files/porter-stemmer-1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dell/Downloads/Compressed/mysql-connector-java-8.0.25/mysql-connector-java-8.0.25/mysql-connector-java-8.0.25.jar"/>
+	<classpathentry kind="output" path="Crawler/out/production/WebCrawler"/>
+</classpath>
