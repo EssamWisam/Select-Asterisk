@@ -13,13 +13,7 @@ search_engine.prototype = {
             let sql =`SELECT * FROM appearsin where  WORD  = '${word}' `;
           
             return pool.query(sql).then(function (result) {
-                console.log(result);
-                if (result.lenght > 0) {
-                   return result;
-                }else
-                {
-                    return null ;
-                } 
+               return result;
             }).catch(function (err) {
                 throw err;
             });

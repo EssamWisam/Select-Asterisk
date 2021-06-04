@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.set('views', path.join(__dirname, 'views'));
 
 //virtual engine that allow us to write code in html files(views) like for loops
-app.set("view engine", 'html');
+app.set("view engine", 'ejs');
 
 //to convert response into json format
 app.use(bodyParser.json());
