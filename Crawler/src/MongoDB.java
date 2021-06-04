@@ -87,5 +87,9 @@ public class MongoDB {
             }
             return  x;
         }
+        public void dropCollection()
+        {
+            collection.drop();
+        }
     }
 }
