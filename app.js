@@ -8,12 +8,15 @@ const path = require('path');
 //engine
 const ejs = require('ejs');
 
+//to convert response into json format and give us access the form data
+const bodyParser = require('body-parser');
+
 // use the framework
 const app = express();
 
 // include routes
 const homeRouter = require('./routes/home');
-const result = require('./roues/results');
+const result = require('./routes/results');
 
 //local host
 const port = process.env.PORT || 3000;
@@ -21,7 +24,7 @@ const port = process.env.PORT || 3000;
 
 //server static files 
 app.use(express.static(path.join(__dirname, './views/assets')));
-app.sets('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 //virtual engine that allow us to write code in html files(views) like for loops
 app.set("view engine", 'ejs');

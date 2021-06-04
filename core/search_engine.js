@@ -1,4 +1,4 @@
-const pool= reruire('./pool');
+const pool= require('./pool');
 
 function search_engine(){};
 
