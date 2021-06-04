@@ -122,7 +122,7 @@ public class Indexer {
             throws Exception {
         // Database connection.
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Indexer", "root", "password");
+        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", "root", "@23198631yousif@");
         // Population queries
         String populateWords = " insert into Words (WORD)" + " values (?)";
         String populateWebsites = " insert into Webpages (URL)" + " values (?)";

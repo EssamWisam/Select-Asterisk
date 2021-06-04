@@ -13,7 +13,7 @@ public class main {
         // Connect to MongoDB
         mdb.ConnecttoDB();
         // Get the number of crawled pages from previous run
-        int pages = mdb.getPagesNum();
+      /*  int pages = mdb.getPagesNum();
         System.out.println("Now " + pages);
         //if the number of pages >= 5000 or = 0  then the last run was completed successfully
         //So we should start from our seed set
@@ -56,7 +56,7 @@ public class main {
             threads[i].join();
         }
 
-
+*/
         System.out.println("Now Indexing......");
         FindIterable<Document> documents = mdb.getDocuments();
         int counter = 0;
@@ -70,7 +70,7 @@ public class main {
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 5000)
+            if (counter == 1000)
                 break;
 
         }

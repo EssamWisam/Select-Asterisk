@@ -1,11 +1,32 @@
-const pool= require('./pool');
+const pool = require('./pool');
+var stemmer = require('porter-stemmer').stemmer;
+const { request, response } = require('express');
 
-function search_engine(){};
+function search_engine() { };
 
-search_engine.prototype={
+search_engine.prototype = {
     // This function will search data in the database. 
-    
+    Search: function (text = null) {
+        if (text) {
+            var word = stemmer(text);
+            console.log(word);
+            let sql =`SELECT * FROM appearsin where  WORD  = '${word}' `;
+          
+            return pool.query(sql).then(function (result) {
+                console.log(result);
+                if (result.lenght > 0) {
+                   return result;
+                }else
+                {
+                    return null ;
+                } 
+            }).catch(function (err) {
+                throw err;
+            });
+        }
+
+    },
 
 }
-
 module.exports = search_engine;
+

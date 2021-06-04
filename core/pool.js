@@ -1,11 +1,11 @@
-/*const util = require('util');
+const util = require('util');
 var mysql = require('mysql');
 
 const pool =mysql.createPool({
     host : 'localhost',
     user :'root',
     password : '@23198631yousif@',
-    database : 'Indexer'
+    database : 'indexer'
 });
 
 pool.getConnection((err , connection)=>{
@@ -20,4 +20,3 @@ pool.getConnection((err , connection)=>{
 
 pool.query = util.promisify(pool.query);
 module.exports =pool ;
-*/
