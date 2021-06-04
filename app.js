@@ -23,11 +23,11 @@ const port = process.env.PORT || 3000;
 
 
 //server static files 
-app.use(express.static(path.join(__dirname, './views/assets')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.set('views', path.join(__dirname, 'views'));
 
 //virtual engine that allow us to write code in html files(views) like for loops
-app.set("view engine", 'ejs');
+app.set("view engine", 'html');
 
 //to convert response into json format
 app.use(bodyParser.json());
@@ -38,6 +38,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Routers of the pages 
 app.use('/home', homeRouter);
 app.use('/results', result);
+
+
 
 //server listen
 app.listen(port, (error) => {
