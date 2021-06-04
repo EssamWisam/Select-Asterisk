@@ -1,0 +1,38 @@
+@media (max-width: 425px) {
+  .DeskView {
+    display: none;
+  }
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #cb1db9;
+  border-color: #cb1db9;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #a01492;
+  border-color: #a01492;
+}
+
+.btn.btn-primary.btn-block {
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #cb1db9;
+  border-color: #cb1db9;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  color: #fff;
+  background-color: #cb1db9;
+  border-color: #cb1db9;
+  box-shadow: 0 0 0 .2rem rgba(38,143,255,.5);
+}
+
