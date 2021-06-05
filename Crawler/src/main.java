@@ -70,7 +70,7 @@ public class main {
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 1000)
+            if (counter == 5000)
                 break;
 
         }

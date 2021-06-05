@@ -62,11 +62,15 @@
                             </div>
                         </div>
                     </div>
+                    <%if(results){%>
+                        <%for (let i of results){%>
                     <div class="col">
-                        <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="#" style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;">The Title of the url of the retrieved page ....</a>
+                        <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="#" style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;"><%= i.URL%></a>
                             <h4>Some content of the page&nbsp;</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#" style="/*background: #ffffff;*/border-color: var(--bs-purple);border-bottom-color: var(--bs-purple);">see more</a>
                         </div>
                     </div>
+                    <%}%>
+                    <%}%>
                     <nav class="text-center d-flex d-xl-flex justify-content-center justify-content-xl-center">
                         <ul class="pagination">
                             <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>

@@ -16,11 +16,13 @@ router.post('/',  async (request, Respose) =>{
 
    console.log(request.body.searchbar);
    var text = request.body.searchbar;
-   var result;
    s_engine.Search(text ).then( function (result) {
       if (result) {
          console.log(result);
-         Respose.redirect('results');
+
+         Respose.render('results',{
+            results : result 
+         });
          // sending data to the front
       }
    })

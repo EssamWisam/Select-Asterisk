@@ -18,7 +18,7 @@ public class Stemming {
 	// remove any thing not alphapitic char
 	// Return type : String
 	public static String html2text(String html) {
-		return Jsoup.clean(html, Whitelist.none()).replaceAll("http.*?\\s", "").replaceAll("[^A-Za-z ]", " ");
+		return Jsoup.clean(html, Whitelist.none()).replaceAll("http.*?\\s", " ").replaceAll("[^A-Za-z ]", "");
 		 
 	}
 
