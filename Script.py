@@ -48,7 +48,6 @@ def seekSpace(Stringo,Start,farEnd):        #find the a decent period to the lef
 
 
 def SoupTime(url):
-    #url = "https://en.wikipedia.org/wiki/Fibonacci_heap"
     html = urlopen(url).read()
     soup = BeautifulSoup(html, features="html.parser")
 
@@ -88,8 +87,7 @@ def Grasp(URL,Word,Q,l,r):          #Q=0 if we don't want a random instance of t
 
     return(Res)
 
-print(sys.argv[1])
-print(sys.argv[2])
-print(Grasp('https://en.wikipedia.org/wiki/Algorithm',"Algorithm",0,0,200))
+
+print(Grasp(sys.argv[1],sys.argv[2],0,0,250))
 sys.stdout.flush()
 

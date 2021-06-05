@@ -9,8 +9,7 @@ search_engine.prototype = {
     Search: function (text = null) {
         if (text) {
             var word = stemmer(text);
-            console.log(word);
-            let sql =`SELECT * FROM appearsin where  WORD  = '${word}' `;
+            let sql =`SELECT * FROM invertedindex   where  WORD  = '${word}' `;
           
             return pool.query(sql).then(function (result) {
                return result;

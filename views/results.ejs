@@ -65,8 +65,8 @@
                     <%if(results !=""){%>
                         <%for (let i of results){%>
                     <div class="col">
-                        <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="#" style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;"><%= i.URL%></a>
-                            <h4>Some content of the page&nbsp;</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#" style="/*background: #ffffff;*/border-color: var(--bs-purple);border-bottom-color: var(--bs-purple);">see more</a>
+                        <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="<%= i.URL%>"style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;"><%= i.WORD%></a>
+                            <h4> <%=i.Content%>&nbsp;</h4><a class="btn btn-outline-primary btn-sm" role="button" href="#" style="/*background: #ffffff;*/border-color: var(--bs-purple);border-bottom-color: var(--bs-purple);">see more</a>
                         </div>
                     </div>
                     <%}%>

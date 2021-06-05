@@ -11,17 +11,23 @@ import ca.rmen.porterstemmer.PorterStemmer;
 
 public class Stemming {
 	static Set<String> stopWordsSet = new HashSet<String>();
-	
+
 	// parameter : String
 	// using Jsoup liberary work to convert HTML file to text
 	// remove html tags by replacing it with space
 	// remove any thing not alphapitic char
 	// Return type : String
-	public static String [] html2text(String html) {
-		return Jsoup.clean(html, Whitelist.none()).replaceAll("http.*?\\s", " ").replaceAll("[^A-Za-z ]", " ").split("\\W");
-		 
+
+	public static String html2text(String html) {
+		return Jsoup.clean(html, Whitelist.none());
 	}
 
+	public static String[] cleanContent(String text) {
+		String[] result = html2text(text).replaceAll("http.*?\\s", " ").replaceAll("[^A-Za-z ]", " ").split("\\W");
+		return result;
+
+	}
+    
 	// parameter : array of string words
 	// this function work to remove all stops words from array of strings
 	// it reads file with different stops words in English
@@ -45,24 +51,23 @@ public class Stemming {
 		return wordsList;
 	}
 	// parameter: ArrayList<String>
-	   // this function works using PorterStemmer liberary to stem array list of string 	
-	   // Return type: ArrayList<String>
-		
-		public static ArrayList<String> PorterStemming(ArrayList<String> wordsList) {
-			ArrayList<String> finalwords = new ArrayList<String>();
-			PorterStemmer p = new PorterStemmer();
-			for (String str : wordsList)
-				finalwords.add(p.stemWord(str));
-			
-			return finalwords;
-		}
-		
-		 static String stemWord(String word) {
-		        ArrayList<String> searchMe = new ArrayList<String>();
-		        searchMe.add(word);
-		        searchMe = Stemming.PorterStemming(searchMe);
-		        return searchMe.get(0);
-		    }
-		
+	// this function works using PorterStemmer liberary to stem array list of string
+	// Return type: ArrayList<String>
+
+	public static ArrayList<String> PorterStemming(ArrayList<String> wordsList) {
+		ArrayList<String> finalwords = new ArrayList<String>();
+		PorterStemmer p = new PorterStemmer();
+		for (String str : wordsList)
+			finalwords.add(p.stemWord(str));
+
+		return finalwords;
+	}
+
+	static String stemWord(String word) {
+		ArrayList<String> searchMe = new ArrayList<String>();
+		searchMe.add(word);
+		searchMe = Stemming.PorterStemming(searchMe);
+		return searchMe.get(0);
+	}
 
 }

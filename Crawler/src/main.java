@@ -4,11 +4,12 @@ import com.mongodb.client.FindIterable;
 
 import org.bson.Document;
 
-public class main {
+public class Main {
     public static void main(String[] args) throws Exception {
         ArrayList<String> wordsList = new ArrayList<String>();
         List<String> seedSet;
         HashMap<String, List<String>> FI = new HashMap<String, List<String>>();
+        HashMap<String,String> URL_content = new HashMap<String,String>();
         MongoDB.MongoHandler mdb = new MongoDB.MongoHandler();
         // Connect to MongoDB
         mdb.ConnecttoDB();
@@ -63,13 +64,15 @@ public class main {
         for (Document doc : documents) {
             String url = doc.get("Url").toString();
             String text = doc.get("html").toString();
-            String words[] = Stemming.html2text(text);
+            URL_content.put(url , text);
+            String words[] = Stemming.cleanContent(text);
             wordsList = Stemming.removeStopWords(words);
             wordsList = Stemming.PorterStemming(wordsList);
+           
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 1000)
+            if (counter == 100)
                 break;
 
         }
@@ -80,7 +83,7 @@ public class main {
 
         Indexer c = new Indexer();
         c.Invert(FI);
-        c.databaseAction(FI, c.invertedIndex);
+        c.databaseAction(FI, c.invertedIndex, URL_content);
 
     }
 

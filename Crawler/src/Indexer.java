@@ -118,30 +118,33 @@ public class Indexer {
 
     }
 
-    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex)
+    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex,HashMap<String,String> Contento)
             throws Exception {
         // Database connection.
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", "root", "@23198631yousif@");
         // Population queries
         String populateWords = " insert into Words (WORD)" + " values (?)";
-        String populateWebsites = " insert into Webpages (URL)" + " values (?)";
+        String populateWebsites = " insert into Webpages (URL,Content)" + " values (?,?)";
         String populateRelation = " insert into AppearsIn ()" + " values (?,?,?,?)";
         PreparedStatement wordQuery = Con.prepareStatement(populateWords);
         PreparedStatement websiteQuery = Con.prepareStatement(populateWebsites);
         PreparedStatement relationQuery = Con.prepareStatement(populateRelation);
-
+        int count=0;
         // Executing the queries to populate the database.
         for (Map.Entry<String, List<String>> FI : forwardIndex.entrySet()) {
             websiteQuery.setString(1, (String) FI.getKey());
+            websiteQuery.setString(2, (String)Contento.get(((String)FI.getKey())));
             try {
                 websiteQuery.execute();
             } catch (Exception e) {
                 System.out.println((String) FI.getKey() + "Is already here.");
             }
+            count++;
+            System.out.println("["+count +"]"+" websites inserted");
+
 
         }
-
         for (Map.Entry<String, List<webPage>> II : invertedIndex.entrySet()) {
             String Word =  II.getKey();
             wordQuery.setString(1, Word);
@@ -151,6 +154,7 @@ public class Indexer {
             } catch (Exception e) {
                 System.out.println( Word + "Is already here.");
             }
+           
 
             ArrayList<webPage> webPages = (ArrayList<webPage>) II.getValue(); // Get the list of words in the website.
             for (webPage w : webPages) {
@@ -158,14 +162,16 @@ public class Indexer {
                 relationQuery.setString(2, w.URL);
                 relationQuery.setInt(3, w.TF);
                 relationQuery.setFloat(4, (float) Math.log(5000/webPages.size()));
-
+                
+                
                 try {
                     relationQuery.execute();
                 } catch (Exception e) {
-                    System.out.println("It's prior knowledge.");
+                    System.out.println("It's prior knowledge.error"+ e.getMessage());
                 }
 
             }
+
         }
 
         // Printing the invertex index:

@@ -41,7 +41,7 @@ app.use('/results', result);
 
 // variable to be accesed by all 
 var final_result ="" ;
-
+var content ="";
 //server listen
 app.listen(port, (error) => {
     if (error)
