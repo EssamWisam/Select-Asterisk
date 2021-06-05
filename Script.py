@@ -1,7 +1,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import random
-
+import sys
 def Pi( pattern):                  #Building the pi table by  matching the pattern with itself.
     pi = [0]
     for q in range(1, len(pattern)):
@@ -48,7 +48,7 @@ def seekSpace(Stringo,Start,farEnd):        #find the a decent period to the lef
 
 
 def SoupTime(url):
-    url = "https://en.wikipedia.org/wiki/Fibonacci_heap"
+    #url = "https://en.wikipedia.org/wiki/Fibonacci_heap"
     html = urlopen(url).read()
     soup = BeautifulSoup(html, features="html.parser")
 
@@ -83,10 +83,13 @@ def Grasp(URL,Word,Q,l,r):          #Q=0 if we don't want a random instance of t
         Q=A[0]
         St=Q-1
     En=seekSpace(text,Q,Q+r)          #start after going right for r characters
-    Res=text[St:Q-1]+"\033[1m" + text[Q-1:Q+len(Word)] + "\033[0m"+text[Q+len(Word):En]
+    Res=text[St:Q-1]+" " + text[Q-1:Q+len(Word)] + " "+text[Q+len(Word):En]
     Res=Res.replace("\n"," ")
 
     return(Res)
 
-print(Grasp("https://en.wikipedia.org/wiki/Fibonacci_heap","heap",0,0,200))
+print(sys.argv[1])
+print(sys.argv[2])
+print(Grasp('https://en.wikipedia.org/wiki/Algorithm',"Algorithm",0,0,200))
+sys.stdout.flush()
 

@@ -34,14 +34,17 @@ search_engine.prototype = {
             });
         }
     },
-    autoComplete: function(subword)
+    autoComplete: function(subword=null)
     {
+        if(subword)
+        {
         let sql = `SELECT * FROM userwords WHERE WORD LIKE '${subword}%'`;
         return pool.query(sql).then(function (result){
             return result;
         } ).catch(function (err){
             throw err;
         });
+    }
     }
 
 }

@@ -6,24 +6,21 @@ const search_engine = require('../core/search_engine');
 
 const s_engine = new search_engine();
 
-router.get('/' , function(req , res,next){
+router.get('/' , function(req , res){
     const {word} = req.query;
     console.log(word);
+    if(word !="")
+    {
     s_engine.autoComplete(word).then( function (result) {
         if (result) {
            console.log(result);
-           res.render('home',{
-               auto_comp : result
-           });
+           res.send(result);
         }
-        else
-        {
-            res.render('home',{
-                auto_comp : ""
-            });
-        }
+     }).catch(error =>{
+         console.error(error);
      });
-    return next();
+    }
+    
 });
 
 module.exports = router;

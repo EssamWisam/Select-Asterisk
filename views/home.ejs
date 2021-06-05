@@ -80,10 +80,13 @@
                                     <div class="card-body" style="transform: scale(1);padding: 20px;">
                                         <form method="POST" d-flex align-items-center"><i
                                                 class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input
+                                                list="sugesstions"
                                                 id="searchinput"
                                                 class="form-control form-control-lg flex-shrink-1 form-control-borderless"
                                                 type="search" placeholder="Search topics or keywords" name="searchbar"
-                                                autocomplete="off" required=""></form>
+                                                autocomplete="off" required="">
+                                                <datalist id="sugesstions"></datalist>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
@@ -120,23 +123,26 @@
     input.addEventListener('keyup', debounce(e =>
         handleKeyPress(e), 300));
     function handleKeyPress(e) {
+        var options = '';
         word = input.value;
         fetch(`http://localhost:3000/auto?word=${word}`)
             .then(res => {
                 if (res.ok)
                     return res.json();
                 return Promise.reject(response);
-            }).then(data => {
-                console.log(data);
+            }).then(arr => {
+                for (i = 0; i < arr.length; i++) {
+                    options += '<option value="' + arr[i]['WORD'] + '" />';
+                }
+                document.getElementById('sugesstions').innerHTML = options;
             }).catch(error => {
                 console.warn(error);
             });
+
+
     }
-    if(auto_comp)
-    {
-       console.log(auto_comp);
-    }
-    
+
+
 </script>
 
 </html>
