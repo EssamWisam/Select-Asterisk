@@ -6,7 +6,9 @@ const s_engine = new search_engine();
 
 router.get('/',(request,Respose)=>{
    console.log("i am here");
-   Respose.render('results');
+   Respose.render('results',{
+     results :final_result
+   });
 });
 router.post('/',  async (request, Respose) =>{
    console.log("in post results");
@@ -16,7 +18,10 @@ router.post('/',  async (request, Respose) =>{
    s_engine.Search(text ).then( function (result) {
       if (result) {
          console.log(result);
-         // sending data to the front
+         Respose.render('results',{
+            results : result 
+         })
+         
       }
    })
   

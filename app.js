@@ -39,7 +39,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/home', homeRouter);
 app.use('/results', result);
 
-
+// variable to be accesed by all 
+var final_result ;
 
 //server listen
 app.listen(port, (error) => {
