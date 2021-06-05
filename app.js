@@ -17,7 +17,7 @@ const app = express();
 // include routes
 const homeRouter = require('./routes/home');
 const result = require('./routes/results');
-
+const auto = require('./routes/auto');
 //local host
 const port = process.env.PORT || 3000;
 
@@ -30,16 +30,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", 'ejs');
 
 //to convert response into json format
-app.use(bodyParser.json());
+app.use(express.json());
 
 //to able neasting object in json format this required explicitly we should write this if we need to use body-parser
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 //Routers of the pages 
 app.use('/home', homeRouter);
 app.use('/results', result);
+app.use('/auto',auto);
 
 // variable to be accesed by all 
+
+var auto_complete;
 var final_result ="" ;
 var content ="";
 //server listen

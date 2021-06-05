@@ -42,8 +42,8 @@ router.post('/', async (request, Respose) => {
          results: result
       })
    })
+   s_engine.insertWord(text);
 
-   
 });
 
 module.exports = router;

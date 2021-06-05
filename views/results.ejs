@@ -34,9 +34,15 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient" style="background: var(--bs-white);border-top-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;box-shadow: inset 0px 0px 7px 0px #3f2b96;border: 0px ridge var(--bs-indigo);">
-        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="home.html" style="color: var(--bs-indigo);border-width: 0px;border-color: var(--bs-indigo);font-family: Audiowide, serif;font-size: 20px;transform: rotateX(0deg);"><i class="fas fa-spider" style="padding-left: 8px;color: var(--bs-indigo);transform: scale(1.18);border-color: var(--bs-indigo);background: rgba(255,255,255,0.75);"></i>
-                <p class="text-center d-lg-flex" style="color: var(--bs-indigo);font-weight: 500;text-align: center;margin-bottom: 0px;padding-left: 13px;">Search Time</p>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient"
+        style="background: var(--bs-white);border-top-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;box-shadow: inset 0px 0px 7px 0px #3f2b96;border: 0px ridge var(--bs-indigo);">
+        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="home.html"
+                style="color: var(--bs-indigo);border-width: 0px;border-color: var(--bs-indigo);font-family: Audiowide, serif;font-size: 20px;transform: rotateX(0deg);"><i
+                    class="fas fa-spider"
+                    style="padding-left: 8px;color: var(--bs-indigo);transform: scale(1.18);border-color: var(--bs-indigo);background: rgba(255,255,255,0.75);"></i>
+                <p class="text-center d-lg-flex"
+                    style="color: var(--bs-indigo);font-weight: 500;text-align: center;margin-bottom: 0px;padding-left: 13px;">
+                    Search Time</p>
             </a></div>
     </nav>
     <main class="page projets-page">
@@ -44,15 +50,28 @@
             <div class="container">
                 <div class="text-start heading" style="margin-top: 25px;">
                     <div class="col" style="text-align: left;">
-                        <h2 class="text-start d-inline" style="font-family: Audiowide, serif;transform: scale(0.60);color: var(--bs-indigo);">Search&nbsp; results</h2>
+                        <h2 class="text-start d-inline"
+                            style="font-family: Audiowide, serif;transform: scale(0.60);color: var(--bs-indigo);">
+                            Search&nbsp; results</h2>
                         <div class="row">
                             <div class="col-md-10 offset-md-1">
                                 <div class="card m-auto" style="max-width: 850px;border-width: 0px;">
                                     <div class="card-body">
 
-                                        
-                                       
-                                        <form class="d-flex align-items-center" method="POST" style="height: 54px;padding: 30px;"><i class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input class="form-control flex-shrink-1 form-control-borderless" type="search" placeholder="Search topics or keywords" name="searchbar" autocomplete="on" required=""><button class="btn btn-success btn-lg" data-bss-hover-animate="pulse" type="submit" style="transform: scale(0.82);background: var(--bs-indigo);box-shadow: inset 0px 0px 9px 0px var(--bs-white);border-width: 0px;width: auto;height: auto;">Search</button></form>
+
+
+                                        <form class="d-flex align-items-center" method="POST"
+                                            style="height: 54px;padding: 30px;"><i
+                                                class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input
+                                                list="sugesstions"
+                                                id="searchinput"
+                                                class="form-control flex-shrink-1 form-control-borderless" type="search"
+                                                placeholder="Search topics or keywords" name="searchbar"
+                                                autocomplete="off" required=""><button class="btn btn-success btn-lg"
+                                                data-bss-hover-animate="pulse" type="submit"
+                                                style="transform: scale(0.82);background: var(--bs-indigo);box-shadow: inset 0px 0px 9px 0px var(--bs-white);border-width: 0px;width: auto;height: auto;">Search</button>
+                                                <datalist id="sugesstions"></datalist>
+                                        </form>
                                         </form>
 
 
@@ -62,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                    <%if(results !=""){%>
+                    <%if(results !="" ){%>
                         <%for (let i of results){%>
                     <div class="col">
                         <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="<%= i.URL%>"style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;"><%= i.WORD%></a>
@@ -86,7 +105,8 @@
     </main>
     <footer class="page-footer" style="box-shadow: inset 0px 0px 5px var(--bs-purple);">
         <div class="container">
-            <div class="social-icons"><a href="https://github.com/Essamwisam/SearchTime"><i class="icon ion-social-github"></i></a></div>
+            <div class="social-icons"><a href="https://github.com/Essamwisam/SearchTime"><i
+                        class="icon ion-social-github"></i></a></div>
         </div>
     </footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -95,5 +115,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
     <script src="assets/js/theme.js"></script>
 </body>
+<script>
+    var word;
+    const input = document.getElementById('searchinput');
+    const debounce = (fn, time) => {
+        let timeout;
+        return (...arguments) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn.apply(this, arguments), time);
+        }
+    }
+    input.addEventListener('keyup', debounce(e =>
+        handleKeyPress(e), 300));
+    function handleKeyPress(e) {
+        var options = '';
+        word = input.value;
+        fetch(`http://localhost:3000/auto?word=${word}`)
+            .then(res => {
+                if (res.ok)
+                    return res.json();
+                return Promise.reject(response);
+            }).then(arr => {
+                for (i = 0; i < arr.length; i++) {
+                    options += '<option value="' + arr[i]['WORD'] + '" />';
+                }
+                document.getElementById('sugesstions').innerHTML = options;
+            }).catch(error => {
+                console.warn(error);
+            });
 
+
+    }
+
+
+</script>
 </html>

@@ -32,7 +32,10 @@ router.post('/', async (request, Respose) => {
       Respose.redirect('results');
    })
 
-
+   s_engine.insertWord(text);
+  
+ 
 });
+
 
 module.exports = router;

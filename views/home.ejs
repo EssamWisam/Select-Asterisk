@@ -70,31 +70,36 @@
                 <h1
                     style="text-align: center;padding: 60px;font-size: auto;font-family: Audiowide, serif;color: var(--bs-white);text-shadow: 0px 0px 3px var(--bs-white);transform: scale(1.60);margin-top: 50px;filter: blur(0px) brightness(101%) contrast(102%) hue-rotate(0deg);padding-right: 70px;padding-left: 70px;">
                     CMP SEARCH TIME</h1>
-                    <div class="d-lg-flex justify-content-lg-center col-md-12">
-                        <div class="col">
-                            <div class="row flex-fill" style="padding-bottom: 26px;">
-                                <div class="col-md-10 offset-md-1">
+                <div class="d-lg-flex justify-content-lg-center col-md-12">
+                    <div class="col">
+                        <div class="row flex-fill" style="padding-bottom: 26px;">
+                            <div class="col-md-10 offset-md-1">
 
-                                    <div class="card m-auto"
-                                        style="max-width: 850px;transform: scale(0.85);border-radius: 100px;">
-                                        <div class="card-body" style="transform: scale(1);padding: 20px;">
-                                            <form method ="POST" d-flex align-items-center"><i
-                                                    class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input
-                                                    class="form-control form-control-lg flex-shrink-1 form-control-borderless"
-                                                    type="search" placeholder="Search topics or keywords"
-                                                    name="searchbar" autocomplete="on" required=""></form>
-                                        </div>
+                                <div class="card m-auto"
+                                    style="max-width: 850px;transform: scale(0.85);border-radius: 100px;">
+                                    <div class="card-body" style="transform: scale(1);padding: 20px;">
+                                        <form method="POST" d-flex align-items-center"><i
+                                                class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input
+                                                list="sugesstions"
+                                                id="searchinput"
+                                                class="form-control form-control-lg flex-shrink-1 form-control-borderless"
+                                                type="search" placeholder="Search topics or keywords" name="searchbar"
+                                                autocomplete="off" required="">
+                                                <datalist id="sugesstions"></datalist>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <form methos ="POST"><button class="btn btn-primary" data-bss-hover-animate="pulse" type="button"
-                                        style="transform: scale(1.30) skew(0deg);box-shadow: inset 0px 0px 9px rgba(255,255,255,0.75);background: #3f2b96;color: var(--bs-white);font-family: 'Titillium Web', sans-serif;border-radius: 34px;width: 125.4875px;font-size: 20px;text-align: center;padding: 1px 16px;height: 36.6px;border-width: 0px;font-weight: normal;">search</button>
-                                </form>
-                            </div>
                         </div>
-
+                        <div>
+                            <form methos="POST"><button class="btn btn-primary" data-bss-hover-animate="pulse"
+                                    type="button"
+                                    style="transform: scale(1.30) skew(0deg);box-shadow: inset 0px 0px 9px rgba(255,255,255,0.75);background: #3f2b96;color: var(--bs-white);font-family: 'Titillium Web', sans-serif;border-radius: 34px;width: 125.4875px;font-size: 20px;text-align: center;padding: 1px 16px;height: 36.6px;border-width: 0px;font-weight: normal;">search</button>
+                            </form>
+                        </div>
                     </div>
+
+                </div>
             </div>
         </div>
     </header>
@@ -105,5 +110,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
     <script src="assets/js/theme.js"></script>
 </body>
+<script>
+    var word;
+    const input = document.getElementById('searchinput');
+    const debounce = (fn, time) => {
+        let timeout;
+        return (...arguments) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn.apply(this, arguments), time);
+        }
+    }
+    input.addEventListener('keyup', debounce(e =>
+        handleKeyPress(e), 300));
+    function handleKeyPress(e) {
+        var options = '';
+        word = input.value;
+        fetch(`http://localhost:3000/auto?word=${word}`)
+            .then(res => {
+                if (res.ok)
+                    return res.json();
+                return Promise.reject(response);
+            }).then(arr => {
+                for (i = 0; i < arr.length; i++) {
+                    options += '<option value="' + arr[i]['WORD'] + '" />';
+                }
+                document.getElementById('sugesstions').innerHTML = options;
+            }).catch(error => {
+                console.warn(error);
+            });
+
+
+    }
+
+
+</script>
 
 </html>
