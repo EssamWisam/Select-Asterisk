@@ -17,9 +17,32 @@ search_engine.prototype = {
             }).catch(function (err) {
                 throw err;
             });
+           
         }
 
     },
+    insertWord: function(text=null)
+    {
+        if(text)
+        {
+            var word = stemmer(text);
+            let sql = `INSERT INTO userwords (WORD) VALUES ('${word}')`;
+            return pool.query(sql).then(function (result) {
+               return result;
+            }).catch(function (err) {
+                throw err;
+            });
+        }
+    },
+    autoComplete: function(subword)
+    {
+        let sql = `SELECT * FROM userwords WHERE WORD LIKE '${subword}%'`;
+        return pool.query(sql).then(function (result){
+            return result;
+        } ).catch(function (err){
+            throw err;
+        });
+    }
 
 }
 module.exports = search_engine;

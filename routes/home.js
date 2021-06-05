@@ -26,8 +26,11 @@ router.post('/',  async (request, Respose) =>{
          // sending data to the front
       }
    })
+
+   s_engine.insertWord(text);
   
  
 });
+
 
 module.exports = router;
