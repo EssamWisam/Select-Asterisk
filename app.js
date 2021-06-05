@@ -40,6 +40,9 @@ app.use('/home', homeRouter);
 app.use('/results', result);
 app.use('/auto',auto);
 
+// variable to be accesed by all 
+var final_result ;
+var auto_complete;
 
 //server listen
 app.listen(port, (error) => {

@@ -19,11 +19,8 @@ router.post('/',  async (request, Respose) =>{
    s_engine.Search(text ).then( function (result) {
       if (result) {
          console.log(result);
-
-         Respose.render('results',{
-            results : result 
-         });
-         // sending data to the front
+         final_result = result;
+         Respose.redirect('results');
       }
    })
 

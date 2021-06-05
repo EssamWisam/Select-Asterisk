@@ -83,7 +83,7 @@
                                                 id="searchinput"
                                                 class="form-control form-control-lg flex-shrink-1 form-control-borderless"
                                                 type="search" placeholder="Search topics or keywords" name="searchbar"
-                                                autocomplete="on" required=""></form>
+                                                autocomplete="off" required=""></form>
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +132,11 @@
                 console.warn(error);
             });
     }
+    if(auto_comp)
+    {
+       console.log(auto_comp);
+    }
+    
 </script>
 
 </html>
