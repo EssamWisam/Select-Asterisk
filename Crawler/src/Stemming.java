@@ -17,8 +17,8 @@ public class Stemming {
 	// remove html tags by replacing it with space
 	// remove any thing not alphapitic char
 	// Return type : String
-	public static String html2text(String html) {
-		return Jsoup.clean(html, Whitelist.none()).replaceAll("http.*?\\s", " ").replaceAll("[^A-Za-z ]", "");
+	public static String [] html2text(String html) {
+		return Jsoup.clean(html, Whitelist.none()).replaceAll("http.*?\\s", " ").replaceAll("[^A-Za-z ]", " ").split("\\W");
 		 
 	}
 

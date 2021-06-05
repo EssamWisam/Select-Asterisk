@@ -63,14 +63,13 @@ public class main {
         for (Document doc : documents) {
             String url = doc.get("Url").toString();
             String text = doc.get("html").toString();
-            String words[] = Stemming.html2text(text).split(" ");
-
+            String words[] = Stemming.html2text(text);
             wordsList = Stemming.removeStopWords(words);
             wordsList = Stemming.PorterStemming(wordsList);
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 5000)
+            if (counter == 1000)
                 break;
 
         }
