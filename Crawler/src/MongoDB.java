@@ -5,10 +5,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
 
-import com.mongodb.DBCollection;
 
 import com.mongodb.client.model.Filters;
-import org.bson.BsonArray;
 
 import org.bson.Document;
 
@@ -33,11 +31,12 @@ public class MongoDB {
 
 
         }
-        public  void  insert(String url , String html)
+        public  void  insert(String url , String html ,String title)
         {
             Document document = new Document()
                     .append("Url", url)
-                    .append("html", html);
+                    .append("html", html)
+                    .append("title",title);
             collection.insertOne(document);
         }
         public FindIterable<Document>  getDocuments() {

@@ -10,11 +10,13 @@ public class Main {
         List<String> seedSet;
         HashMap<String, List<String>> FI = new HashMap<String, List<String>>();
         HashMap<String,String> URL_content = new HashMap<String,String>();
+        HashMap<String,String> title = new HashMap<String,String>();
         MongoDB.MongoHandler mdb = new MongoDB.MongoHandler();
+
         // Connect to MongoDB
         mdb.ConnecttoDB();
         // Get the number of crawled pages from previous run
-      /*  int pages = mdb.getPagesNum();
+       /* int pages = mdb.getPagesNum();
         System.out.println("Now " + pages);
         //if the number of pages >= 5000 or = 0  then the last run was completed successfully
         //So we should start from our seed set
@@ -56,7 +58,6 @@ public class Main {
         for (int i = 0; i < numOfThreads; i++) {
             threads[i].join();
         }
-
 */
         System.out.println("Now Indexing......");
         FindIterable<Document> documents = mdb.getDocuments();
@@ -64,6 +65,8 @@ public class Main {
         for (Document doc : documents) {
             String url = doc.get("Url").toString();
             String text = doc.get("html").toString();
+            title.put(url ,doc.get("title").toString());
+            text = Stemming.html2text(text);
             URL_content.put(url , text);
             String words[] = Stemming.cleanContent(text);
             wordsList = Stemming.removeStopWords(words);
@@ -72,7 +75,7 @@ public class Main {
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 100)
+            if (counter == 1000)
                 break;
 
         }
@@ -83,16 +86,10 @@ public class Main {
 
         Indexer c = new Indexer();
         c.Invert(FI);
-        c.databaseAction(FI, c.invertedIndex, URL_content);
+        c.databaseAction(FI, c.invertedIndex, URL_content, title);
 
     }
 
 
-    static String stemWord(String word) {
-        ArrayList<String> searchMe = new ArrayList<String>();
-        searchMe.add(word);
-        searchMe = Stemming.PorterStemming(searchMe);
-        return searchMe.get(0);
-    }
 
 }

@@ -118,14 +118,14 @@ public class Indexer {
 
     }
 
-    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex,HashMap<String,String> Contento)
+    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex,HashMap<String,String> Contento, HashMap<String,String> title)
             throws Exception {
         // Database connection.
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", "root", "@23198631yousif@");
         // Population queries
         String populateWords = " insert into Words (WORD)" + " values (?)";
-        String populateWebsites = " insert into Webpages (URL,Content)" + " values (?,?)";
+        String populateWebsites = " insert into Webpages (URL,Content,Title)" + " values (?,?,?)";
         String populateRelation = " insert into AppearsIn ()" + " values (?,?,?,?)";
         PreparedStatement wordQuery = Con.prepareStatement(populateWords);
         PreparedStatement websiteQuery = Con.prepareStatement(populateWebsites);
@@ -135,6 +135,7 @@ public class Indexer {
         for (Map.Entry<String, List<String>> FI : forwardIndex.entrySet()) {
             websiteQuery.setString(1, (String) FI.getKey());
             websiteQuery.setString(2, (String)Contento.get(((String)FI.getKey())));
+            websiteQuery.setString(3, (String)title.get(((String)FI.getKey())));
             try {
                 websiteQuery.execute();
             } catch (Exception e) {
