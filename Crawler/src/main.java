@@ -4,7 +4,7 @@ import com.mongodb.client.FindIterable;
 
 import org.bson.Document;
 
-public class Main {
+public class main {
     public static void main(String[] args) throws Exception {
         ArrayList<String> wordsList = new ArrayList<String>();
         List<String> seedSet;
@@ -75,7 +75,7 @@ public class Main {
             counter++;
             FI.put(url, wordsList);
             System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 1000)
+            if (counter == 100)
                 break;
 
         }

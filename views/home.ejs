@@ -54,7 +54,7 @@
 
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient"
         style="background: var(--bs-white);border-top-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;box-shadow: inset 0px 0px 7px 0px #3f2b96;border: 0px ridge var(--bs-indigo);">
-        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="#"
+        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="home"
                 style="color: var(--bs-indigo);border-width: 0px;border-color: var(--bs-indigo);font-family: Audiowide, serif;font-size: 20px;transform: rotateX(0deg);"><i
                     class="fas fa-spider"
                     style="padding-left: 8px;color: var(--bs-indigo);transform: scale(1.18);border-color: var(--bs-indigo);background: rgba(255,255,255,0.75);"></i>
@@ -78,13 +78,21 @@
                                 <div class="card m-auto"
                                     style="max-width: 850px;transform: scale(0.85);border-radius: 100px;">
                                     <div class="card-body" style="transform: scale(1);padding: 20px;">
-                                        <form method="POST" d-flex align-items-center"><i
+                                        <form method="POST"id="userinput" class="d-flex align-items-center"><i
                                                 class="fas fa-search d-none d-sm-block h4 text-body m-0"></i><input
                                                 list="sugesstions"
                                                 id="searchinput"
                                                 class="form-control form-control-lg flex-shrink-1 form-control-borderless"
                                                 type="search" placeholder="Search topics or keywords" name="searchbar"
                                                 autocomplete="off" required="">
+                                                 <a class="text-center d-lg-flex justify-content-lg-center"
+                                                 href="#" style="width: 84px;height: 68px;">
+                                                 <img src="assets/img/icons8-dots-loading.gif"  hidden="true" id="loading"  style="transform: scale(0.50);" /></a>
+                                                 <i class="" data-bss-hover-animate="tada">
+                                                <a href="#" id="start_button" onclick="startDictation(event);"><i 
+                                                    class="fas fa-microphone" style="font-size: 30px;padding: 20px;color: var(--bs-indigo);"></i></a>
+
+
                                                 <datalist id="sugesstions"></datalist>
                                             </form>
                                     </div>
@@ -92,10 +100,10 @@
                             </div>
                         </div>
                         <div>
-                            <form methos="POST"><button class="btn btn-primary" data-bss-hover-animate="pulse"
-                                    type="button"
+                            <button class="btn btn-primary" data-bss-hover-animate="pulse"
+                                    type="submit" form="userinput" 
                                     style="transform: scale(1.30) skew(0deg);box-shadow: inset 0px 0px 9px rgba(255,255,255,0.75);background: #3f2b96;color: var(--bs-white);font-family: 'Titillium Web', sans-serif;border-radius: 34px;width: 125.4875px;font-size: 20px;text-align: center;padding: 1px 16px;height: 36.6px;border-width: 0px;font-weight: normal;">search</button>
-                            </form>
+                            
                         </div>
                     </div>
 
@@ -143,6 +151,73 @@
     }
 
 
+</script>
+
+   
+<script type="text/javascript">
+ var text_to_display = document.getElementById("searchinput");
+ var loading_icon = document.getElementById("loading");
+  var final_transcript = "";
+  var recognizing = false;
+
+  if ("webkitSpeechRecognition" in window) {
+    var recognition = new webkitSpeechRecognition();
+
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = function () {
+      recognizing = true;
+      loading_icon.hidden=false;
+    };
+
+    recognition.onerror = function (event) {
+      console.log(event.error);
+    };
+
+    recognition.onend = function () {
+     
+      text_to_display.placeholder="Search topics or keywords";
+      loading_icon.hidden=true;
+      recognizing = false;
+    };
+
+    recognition.onresult = function (event) {
+      var interim_transcript = "";
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript = event.results[i][0].transcript;
+        } else {
+          interim_transcript = event.results[i][0].transcript;
+        }
+      }
+      final_transcript = capitalize(final_transcript);
+      text_to_display.placeholder=linebreak(interim_transcript);
+      text_to_display.value=linebreak(final_transcript);
+    };
+  }
+  var two_line = /\n\n/g;
+  var one_line = /\n/g;
+  function linebreak(s) {
+    return s.replace(two_line, "<p></p>").replace(one_line, "<br>");
+  }
+
+  function capitalize(s) {
+    return s.replace(s.substr(0, 1), function (m) {
+      return m.toUpperCase();
+    });
+  }
+
+  function startDictation(event) {
+    if (recognizing) {
+      recognition.stop();
+      return;
+    }
+    final_transcript = "";
+    recognition.lang = "en-US";
+    recognition.start();
+    text_to_display.value= "";
+  }
 </script>
 
 </html>

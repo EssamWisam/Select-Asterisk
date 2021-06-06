@@ -20,19 +20,27 @@ router.post('/', async (request, Respose) => {
       if (result) {
 
         
-         final_result = result;
+        
          for (let i of result) {
             
-            var cont = i.Content.toLowerCase();
-            i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1, 700);
+           var cont = i.Content.toLowerCase();
+
+            i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1,600);
             console.log(i.Content);
          }
-
+          final_result = result;
       }
+      else{
+         console.log("saba7");
+      }
+
+      s_engine.insertWord(text).catch(
+      error =>{
+         console.log("7amada");
+     });
       Respose.redirect('results');
    })
 
-   s_engine.insertWord(text);
 
 
 });

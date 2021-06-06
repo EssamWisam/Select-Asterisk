@@ -36,7 +36,7 @@
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-white portfolio-navbar gradient"
         style="background: var(--bs-white);border-top-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;box-shadow: inset 0px 0px 7px 0px #3f2b96;border: 0px ridge var(--bs-indigo);">
-        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="home.html"
+        <div class="container"><a class="navbar-brand text-center d-lg-flex align-items-lg-center logo" href="home"
                 style="color: var(--bs-indigo);border-width: 0px;border-color: var(--bs-indigo);font-family: Audiowide, serif;font-size: 20px;transform: rotateX(0deg);"><i
                     class="fas fa-spider"
                     style="padding-left: 8px;color: var(--bs-indigo);transform: scale(1.18);border-color: var(--bs-indigo);background: rgba(255,255,255,0.75);"></i>
@@ -80,8 +80,9 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <%if(results !="" ){%>
+                 <!--  <%if(results !="" ){%>
                         <%for (let i of results){%>
                     <div class="col">
                         <div class="text-start project-card-no-image" style="background: var(--bs-white);border-color: var(--bs-indigo);"><a href="<%= i.URL%>"style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;"><%= i.Title%></a>
@@ -89,16 +90,11 @@
                         </div>
                     </div>
                     <%}%>
-                    <%}%>
-                    <nav class="text-center d-flex d-xl-flex justify-content-center justify-content-xl-center">
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                    </nav>
+                    <%}%> -->
+                     <div id="list"></div>
+                    
+                    <div class="pagination" id="pagination"></div>
+                   
                 </div>
             </div>
         </section>
@@ -114,8 +110,131 @@
     <script src="assets/js/Animated-Typing-With-Blinking.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
     <script src="assets/js/theme.js"></script>
-</body>
+
+ <script type="text/javascript">
+
+    var text_to_display = document.getElementById("searchinput");
+    text_to_display.value = "bla blaaa";
+    var output='<%- JSON.stringify(results) %>';
+
+   text_to_display.value = output;
+   const listItems = JSON.parse(output);
+
+    const listEl = document.getElementById("list");
+    const paginationEl = document.getElementById("pagination");
+
+    let currentPage = 1;
+    let rows = 10;
+    let pageCount = Math.ceil(listItems.length / rows);
+function displayList(items,wrapper,rowsPerPage,page)
+ {
+  wrapper.innerHTML = "";
+  page--;
+
+  let start = rowsPerPage * page;
+  let end = start + rowsPerPage;
+
+  let paginatedItems = items.slice(start, end);
+ 
+  for (let i = 0; i < paginatedItems.length; i++) {
+    let item = paginatedItems[i].URL;
+    let title= paginatedItems[i].Title;
+    let content= paginatedItems[i].Content;
+    let itemEl = document.createElement("div");
+    itemEl.className ="col";
+    let itemE2 = document.createElement("div");
+    itemE2.className  = "text-start project-card-no-image";
+    itemE2.style= "background: var(--bs-white);border-color: var(--bs-indigo);";
+    let itemE3 = document.createElement("a");
+    itemE3.style="color: var(--bs-indigo);font-weight: 700;font-size: 22px;";
+    itemE3.href=item;
+    itemE3.appendChild(document.createTextNode(title));
+    let itemE4 = document.createElement("h4");
+    itemE4.appendChild(document.createTextNode(content));
+    let itemE5= document.createElement("a");
+    itemE5.className ="btn btn-outline-primary btn-sm";
+    itemE5.role="button";
+    itemE5.href=item;
+    itemE5.style="border-color: var(--bs-purple);border-bottom-color: var(--bs-purple);";
+    itemE5.appendChild(document.createTextNode("see more"));
+    wrapper.appendChild(itemEl);
+    itemEl.appendChild(itemE2);
+    itemE2.appendChild(itemE3);
+    itemE2.appendChild(itemE4);
+    itemE2.appendChild(itemE5);
+  }
+}
+
+function setupPagination(items,wrapper,rowsPerPage) {
+  wrapper.innerHTML = "";
+  
+ 
+  for (let i = 0; i < pageCount + 2; i++) {
+    const btn = paginationButton(i, listItems);
+    wrapper.appendChild(btn);
+  }
+ 
+}
+
+function paginationButton(page, items) {
+  const button = document.createElement("button");
+  button.id= page.toString();
+  button.type="submit";
+  if(page===0) //prev
+  {
+    button.textContent="<<";
+    
+  }
+  else if(page===pageCount+1) //next
+  {
+    button.textContent=">>";
+    
+    
+  }
+  else{
+  button.textContent = page.toString();
+
+  if (currentPage === page) {
+    button.classList.add("active");
+  }
+  }
+  button.addEventListener("click", function () {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    if(page==0)
+    {
+        if(currentPage>1)
+            currentPage=currentPage - 1;
+    }
+    else if(page==pageCount+1)
+    {
+        if(currentPage<pageCount)
+            currentPage=currentPage + 1;
+    }
+    else
+    {
+    currentPage = page;
+    }
+    displayList(listItems, listEl, rows, currentPage);
+    
+    let currentBtn = document.querySelector(
+      ".pagination button.active"
+    );
+    currentBtn?.classList.remove("active");
+    let newBtn= document.getElementById(currentPage);
+    newBtn.classList.add("active");
+  });
+
+  return button;
+}
+
+
+displayList(listItems, listEl, rows, currentPage);
+setupPagination(listItems, paginationEl, rows);  */
+
+    </script>
 <script>
+	
     var word;
     const input = document.getElementById('searchinput');
     const debounce = (fn, time) => {
@@ -149,4 +268,5 @@
 
 
 </script>
+</body>
 </html>

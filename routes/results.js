@@ -29,16 +29,25 @@ router.post('/', async (request, Respose) => {
          for (let i of result) {
            
             var cont = i.Content.toLowerCase();
-            i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1, 700);
+            i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1, 600);
+            //console.log(i.Content);
          
          }
          final_result = result;
       }
+      else{
+         console.log("saba7");
+      }
+      s_engine.insertWord(text).catch(
+      error =>{
+         console.log("7amada");
+     });
       Respose.render('results', {
          results: result
       })
    })
-
+    
+      
 
 });
 

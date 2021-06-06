@@ -1,5 +1,67 @@
-a {
-  color: #000000;
-  text-decoration: underline;
+.btn-check:checked + .btn-outline-primary, .btn-check:active + .btn-outline-primary, .btn-outline-primary:active, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show {
+  color: #fff;
+  background-color: var(--bs-indigo);
+  border-color: var(--bs-indigo);
 }
 
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: var(--bs-indigo);
+  border-color: var(--bs-indigo);
+}
+
+.btn-outline-primary {
+  color: var(--bs-indigo);
+  border-color: var(--bs-indigo);
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: var(--bs-indigo);
+  border-color: var(--bs-white);
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  color: var(--bs-indigo);
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  margin: 5px;
+  transition: 0.5s;
+  color: var(--bs-indigo);
+  box-shadow: 0px 0px 5px rgb(221,212,235) ;
+  
+  border-radius: 25px;
+}
+
+.pagination button:hover {
+  background-color: #eee;
+}
+
+.pagination button.active {
+  background-color: var(--bs-indigo);
+  border: 2px solid var(--bs-white);
+  color:var(--bs-white);
+  box-shadow: inset 0px 0px 10px var(--bs-white);
+}
