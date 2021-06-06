@@ -27,20 +27,20 @@ router.post('/', async (request, Respose) => {
    s_engine.Search(text).then(function (result) {
       if (result) {
          for (let i of result) {
-           
+           if(i.Content.length>600)
+           {
             var cont = i.Content.toLowerCase();
             i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1, 600);
+         }
             //console.log(i.Content);
          
          }
          final_result = result;
       }
-      else{
-         console.log("saba7");
-      }
+      
       s_engine.insertWord(text).catch(
       error =>{
-         console.log("7amada");
+         console.log(error);
      });
       Respose.render('results', {
          results: JSON.stringify(result)

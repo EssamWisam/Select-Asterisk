@@ -22,21 +22,21 @@ router.post('/', async (request, Respose) => {
         
         
          for (let i of result) {
-            
+             if(i.Content.length>600)
+           {
            var cont = i.Content.toLowerCase();
 
             i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1,600);
             console.log(i.Content);
          }
+         }
           final_result = JSON.stringify(result);
       }
-      else{
-         console.log("saba7");
-      }
+     
 
       s_engine.insertWord(text).catch(
       error =>{
-         console.log("7amada");
+         console.log(error);
      });
       Respose.redirect('results');
    })
