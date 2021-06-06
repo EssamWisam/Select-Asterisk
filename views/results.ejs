@@ -114,11 +114,12 @@
  <script type="text/javascript">
 
     var text_to_display = document.getElementById("searchinput");
-    text_to_display.value = "bla blaaa";
-    var output='<%- JSON.stringify(results) %>';
-
-   text_to_display.value = output;
-   const listItems = JSON.parse(output);
+   // text_to_display.value = "bla blaaa";
+    // text_to_display.value = '<%- results%>';
+    var output= <%- JSON.stringify(results) %>  
+   // var out=JSON.parse(output);
+    //text_to_display.value = output.replace('&#34;', '');;
+    const listItems = JSON.parse(output.replace('&#34;', ''));
 
     const listEl = document.getElementById("list");
     const paginationEl = document.getElementById("pagination");
@@ -230,7 +231,7 @@ function paginationButton(page, items) {
 
 
 displayList(listItems, listEl, rows, currentPage);
-setupPagination(listItems, paginationEl, rows);  */
+setupPagination(listItems, paginationEl, rows);  
 
     </script>
 <script>

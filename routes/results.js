@@ -43,7 +43,7 @@ router.post('/', async (request, Respose) => {
          console.log("7amada");
      });
       Respose.render('results', {
-         results: result
+         results: JSON.stringify(result)
       })
    })
     

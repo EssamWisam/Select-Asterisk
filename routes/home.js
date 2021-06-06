@@ -28,7 +28,7 @@ router.post('/', async (request, Respose) => {
             i.Content = i.Content.substr(cont.search(text.toLowerCase()) - 1,600);
             console.log(i.Content);
          }
-          final_result = result;
+          final_result = JSON.stringify(result);
       }
       else{
          console.log("saba7");
