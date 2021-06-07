@@ -9,7 +9,7 @@
 <h3 align="center" >🕸  Time to Beat Google  🕸</h3>
 </html>
 
-## To run the Crawler
+## 🕸 To run the Crawler
 1-You need to import all jar file inside the project ,you will find them insdie 
 Code -> Crawler -> jar_file
 
@@ -23,7 +23,7 @@ https://www.mongodb.com/try/download/community
 
 5-Wait untill the crawler finishes the 5000 page
 
-## To run the Indexer
+## 🔍 To run the Indexer
 1-Create database called indexer on MySQL
 
 2-Open Code->Indexer on DB 
@@ -43,7 +43,7 @@ Set them with your MySQL user and password
 
 
 
-## To open the site
+## <img src="https://github.com/SatYu26/SatYu26/blob/master/Assets/Developer.gif" width="30px"> To open the site
 1-First you need to install NodeJS
 
 ```shell
