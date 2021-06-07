@@ -6,7 +6,7 @@
 
 <img  src="https://i.ibb.co/R7JyzqT/logo-readme.png" alt="Untitled-Copy-2" border="0" >
   </H1>
-<h3 align="center" >🕸  Time to Beat GooGle  🕸�</h3>
+<h3 align="center" >🕸  Time to Beat GooGle  🕸</h3>
 ## To run the Crawler
 1-You need to import all jar file inside the project ,you will find them insdie 
 Code -> Crawler -> jar_file
