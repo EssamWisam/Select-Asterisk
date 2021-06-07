@@ -11,9 +11,9 @@
     <orderEntry type="library" name="bson-4.0.4" level="application" />
     <orderEntry type="library" name="jsoup-1.13.1" level="application" />
     <orderEntry type="library" name="mongodb-driver-core-4.0.4" level="application" />
+    <orderEntry type="library" name="mongodb-driver-legacy-4.0.4" level="application" />
     <orderEntry type="library" name="mongodb-driver-sync-4.0.4" level="application" />
     <orderEntry type="library" name="mysql-connector-java-8.0.25" level="application" />
     <orderEntry type="library" name="porter-stemmer-1.0.0" level="application" />
-    <orderEntry type="library" name="mongodb-driver-legacy-4.0.4" level="application" />
   </component>
 </module>

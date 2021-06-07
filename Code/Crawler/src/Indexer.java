@@ -4,33 +4,37 @@ import java.lang.Math;
 
 public class Indexer {
 
-    public class webPage {
+    public class webPage
+    {
 
         private String URL; // The URL Of the website.
         private int TF; // The term frequency of the word in the website.
         // private int District; // The position of the word in the website (0 if it's
         // in the body which is the default, other numbers for other districts)
 
+        //------------------------------------//
         public void incementTF() {
             TF++;
         }
-
-        // public void setDistrict(int D) {
-        // this.District = D;
-        // }
+        //------------------------------------//
 
         public webPage(String URL, int count) {
             this.URL = URL;
             this.TF = count;
             // this.District = 0;
         }
+        //------------------------------------//
+
     }
+    //------------------------------------//
 
     // Our only data member:
-    public Map<String, List<webPage>> invertedIndex; // Each entry in the inverted index includes one word and a list of
-                                                     // the webpages that contain it (the web space).
-    // Note that the term frequency is recorded inside the web page data type, we
-    // have the IDF because we have the length of the web space.
+    public Map<String, List<webPage>> invertedIndex;    // Each entry in the inverted index includes one
+                                                        // word and a list of the webpages that contain it (the web space).
+                                                        // Note that the term frequency is recorded inside
+                                                        // the web page data type, we
+                                                        // have the IDF because we have the length of the web space.
+    //------------------------------------//
 
     public Indexer() {
         this.invertedIndex = new HashMap<String, List<webPage>>();
@@ -89,6 +93,7 @@ public class Indexer {
 
         // System.out.println("Just indexed: " + Website );
     }
+    //------------------------------------//
 
     public void Search(String input) {
         long start = System.currentTimeMillis();
@@ -117,31 +122,37 @@ public class Indexer {
         }
 
     }
+    //------------------------------------//
 
-    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex)
+    public  void databaseAction(HashMap<String, List<String>> forwardIndex, Map<String, List<webPage>> invertedIndex,HashMap<String,String> Contento, HashMap<String,String> title)
             throws Exception {
         // Database connection.
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Indexer", "root", "password");
+        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", "Donia",
+                "123123123d");
         // Population queries
         String populateWords = " insert into Words (WORD)" + " values (?)";
-        String populateWebsites = " insert into Webpages (URL)" + " values (?)";
+        String populateWebsites = " insert into Webpages (URL,Content,Title)" + " values (?,?,?)";
         String populateRelation = " insert into AppearsIn ()" + " values (?,?,?,?)";
         PreparedStatement wordQuery = Con.prepareStatement(populateWords);
         PreparedStatement websiteQuery = Con.prepareStatement(populateWebsites);
         PreparedStatement relationQuery = Con.prepareStatement(populateRelation);
-
+        int count=0;
         // Executing the queries to populate the database.
         for (Map.Entry<String, List<String>> FI : forwardIndex.entrySet()) {
             websiteQuery.setString(1, (String) FI.getKey());
+            websiteQuery.setString(2, (String)Contento.get(((String)FI.getKey())));
+            websiteQuery.setString(3, (String)title.get(((String)FI.getKey())));
             try {
                 websiteQuery.execute();
             } catch (Exception e) {
                 System.out.println((String) FI.getKey() + "Is already here.");
             }
+            count++;
+            System.out.println("["+count +"]"+" websites inserted");
+
 
         }
-
         for (Map.Entry<String, List<webPage>> II : invertedIndex.entrySet()) {
             String Word =  II.getKey();
             wordQuery.setString(1, Word);
@@ -151,6 +162,7 @@ public class Indexer {
             } catch (Exception e) {
                 System.out.println( Word + "Is already here.");
             }
+           
 
             ArrayList<webPage> webPages = (ArrayList<webPage>) II.getValue(); // Get the list of words in the website.
             for (webPage w : webPages) {
@@ -158,14 +170,16 @@ public class Indexer {
                 relationQuery.setString(2, w.URL);
                 relationQuery.setInt(3, w.TF);
                 relationQuery.setFloat(4, (float) Math.log(5000/webPages.size()));
-
+                
+                
                 try {
                     relationQuery.execute();
                 } catch (Exception e) {
-                    System.out.println("It's prior knowledge.");
+                    System.out.println("It's prior knowledge.error"+ e.getMessage());
                 }
 
             }
+
         }
 
         // Printing the invertex index:

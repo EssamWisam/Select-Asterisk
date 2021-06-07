@@ -4,7 +4,7 @@ import com.mongodb.client.FindIterable;
 
 import org.bson.Document;
 
-public class main {
+public class CrawlerMain {
     public static void main(String[] args) throws Exception {
         ArrayList<String> wordsList = new ArrayList<String>();
         List<String> seedSet;
@@ -16,7 +16,7 @@ public class main {
         // Connect to MongoDB
         mdb.ConnecttoDB();
         // Get the number of crawled pages from previous run
-       /* int pages = mdb.getPagesNum();
+        int pages = mdb.getPagesNum();
         System.out.println("Now " + pages);
         //if the number of pages >= 5000 or = 0  then the last run was completed successfully
         //So we should start from our seed set
@@ -39,7 +39,8 @@ public class main {
         } else {
             //if the number of pages from last run is less than 5000
             //So the last run was interrupted and we need to complete it
-            //So we will retrieve the links from database that the last run stopped at and continue from them
+            //So we will retrieve the links from database that the last
+            // run stopped at and continue from them
             System.out.println("Starting from " + pages);
             seedSet = mdb.getLinks();
         }
@@ -58,35 +59,8 @@ public class main {
         for (int i = 0; i < numOfThreads; i++) {
             threads[i].join();
         }
-*/
-        System.out.println("Now Indexing......");
-        FindIterable<Document> documents = mdb.getDocuments();
-        int counter = 0;
-        for (Document doc : documents) {
-            String url = doc.get("Url").toString();
-            String text = doc.get("html").toString();
-            title.put(url ,doc.get("title").toString());
-            text = Stemming.html2text(text);
-            URL_content.put(url , text);
-            String words[] = Stemming.cleanContent(text);
-            wordsList = Stemming.removeStopWords(words);
-            wordsList = Stemming.PorterStemming(wordsList);
-           
-            counter++;
-            FI.put(url, wordsList);
-            System.out.println("[" + counter + "]" + url + "\n");
-            if (counter == 100)
-                break;
 
-        }
 
-        System.out.println(FI.size());
-
-        // Inverting the index.
-
-        Indexer c = new Indexer();
-        c.Invert(FI);
-        c.databaseAction(FI, c.invertedIndex, URL_content, title);
 
     }
 
