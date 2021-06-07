@@ -80,3 +80,13 @@ node app.js
 http://localhost:3000/home
 ```
 
+
+## <img src="https://github.com/SatYu26/SatYu26/blob/master/Assets/Rocket.gif"  width="30px"> DEMO
+<h1 align= "center">
+ <img src="https://i.ibb.co/YPKqKrL/ezgif-2-0d4e1e5dab48.gif">
+</h1>
+</br>
+Voice recognition 🎙
+<h1 align= "center">
+ <img src="https://im2.ezgif.com/tmp/ezgif-2-5fc82c78cdfd.gif">
+</h1>
