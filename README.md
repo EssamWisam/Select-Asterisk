@@ -1,6 +1,6 @@
 <html><H1 align="center">
 
-🕷 Search * 🕷
+🕷 SeLect * 🕷
  </H1>
 <H1 align="center">
 
