@@ -3,7 +3,10 @@ import java.sql.*;
 import java.lang.Math;
 
 public class Indexer {
-
+    String username="root";
+    String password="@dentista1";
+    static String susername="root";
+    static String spassword="@dentista1";
     public class webPage
     {
 
@@ -128,8 +131,8 @@ public class Indexer {
             throws Exception {
         // Database connection.
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", "Donia",
-                "123123123d");
+        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/indexer", username,
+                password);
         // Population queries
         String populateWords = " insert into Words (WORD)" + " values (?)";
         String populateWebsites = " insert into Webpages (URL,Content,Title)" + " values (?,?,?)";
@@ -200,7 +203,7 @@ public class Indexer {
     // Searching:
     public static void DBSearch(String Input) throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Indexer", "root", "0110084949");
+        Connection Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Indexer", susername, spassword);
         Statement search = Con.createStatement();
         long start = System.currentTimeMillis();
         ResultSet entry = search
