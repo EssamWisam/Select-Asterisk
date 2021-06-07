@@ -17,9 +17,13 @@ https://www.mongodb.com/try/download/community
 
 ## To run the Indexer
 1-Create database called indexer on MySQL
+
 2-Open Code->Indexer on DB 
+
 and you will find IndexerDB.sql execute this file in order to create the tables and views
+
 3-Go to code and open file indexer.java 
+
 You will find at the first of the class 
 ```shell
 username=...;
