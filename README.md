@@ -4,12 +4,15 @@ Time to beat Google...
 ## To run the Crawler
 1-You need to import all jar file inside the project ,you will find them insdie 
 Code -> Crawler -> jar_file
+
 2-Install MongoDB
 ```shell
 https://www.mongodb.com/try/download/community
 ```
 3-Open Mongo Compass and jump into localhost
+
 4-Open the code inside any editor and run crawler main
+
 5-Wait untill the crawler finishes the 5000 page
 
 ## To run the Indexer
