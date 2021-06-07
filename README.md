@@ -12,4 +12,25 @@ Visit https://nodejs.org/en/download/ to download
 
 ```shell
 npm install express
+npm install express --save
+```
+
+3-Install MySQL
+
+```shell
+npm install mysql
+```
+
+3-Install Porter-Stemmer
+```shell
+npm install porter-stemmer
+```
+4-Run the server
+Open the terminal inside  Code-> Website  and type
+```shell
+node app.js
+```
+5-Open website
+```shell
+http://localhost:3000/home
 ```
