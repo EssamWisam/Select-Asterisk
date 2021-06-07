@@ -30,6 +30,7 @@ username=...;
 password=...;
 ```
 Set them with your MySQL user and password
+
 4-Run IndexerMain and wait until it finishes
 
 
