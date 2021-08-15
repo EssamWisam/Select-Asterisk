@@ -1,10 +1,11 @@
 <html><H1 align="center">
 
-🕷 SeLect * 🕷
+🕷 Select * 🕷
  </H1>
 <H1 align="center">
+<img  src="/Code/Website/views/assets/img/Logo-Readme-2.png" height="190" >
+<br> <br>
 
-<img  src="https://i.ibb.co/R7JyzqT/logo-readme.png" alt="Untitled-Copy-2" border="0" >
   </H1>
 <h3 align="center" >🕸  Time to Beat Google  🕸</h3>
 </html>
